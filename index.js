@@ -167,3 +167,62 @@ $form.addEventListener("submit", (e) => {
   printQuestion();
   apiPost();
 });
+
+// kakao img api
+// input 값이 변경될 때마다 kakaoImgApiInsert 함수 호출
+$form.addEventListener("submit", function handleFormSubmit(event) {
+  event.preventDefault(); // 폼 제출 기본 동작 막기
+  kakaoImgApiInsert();
+  $form.removeEventListener("submit", handleFormSubmit); // 이벤트 리스너 제거
+});
+
+// 이미지 삽입 함수
+function kakaoImgApiInsert() {
+  const foodType = cuisineType;
+  let page;
+
+  // switch 문을 사용하여 foodType 값에 따라 page 값을 설정
+  switch (foodType) {
+    case "한식":
+      page = 1;
+      break;
+    case "일식요리":
+      page = 2;
+      break;
+    case "중식":
+      page = 5;
+      break;
+    case "양식요리":
+      page = 3;
+      break;
+    default:
+      page = 1;
+      break;
+  }
+
+  //https://developers.kakao.com/tool/rest-api/open/get/v2-search-image
+  $.ajax({
+    type: "GET",
+    url: "https://dapi.kakao.com/v2/search/image",
+    headers: {
+      Authorization: "KakaoAK 1ae7763bfd5906ae723a040cd42f2538", // 'KakaoAK 0000000000000000000000000000000000'
+    },
+    data: {
+      query: `${foodType}`,
+      sort: "accuracy", //accuracy(정확도순) 또는 recency(최신순)
+      page: page, //결과 페이지 번호, 1~50 사이의 값, 기본 값 1
+      size: 1, //한 페이지에 보여질 문서 수, 1~80 사이의 값, 기본 값 80
+    },
+    success: function (jdata) {
+      //console.log(jdata);
+      $(jdata.documents).each(function (index) {
+        $("div#content").append('<img src="' + this.image_url + '"/>');
+      });
+    },
+    error: function (xhr, textStatus) {
+      console.log(xhr.responseText);
+      console.log("에러");
+      return;
+    },
+  });
+}

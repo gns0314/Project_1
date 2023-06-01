@@ -11,8 +11,13 @@
     <!-- axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+    <!-- tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- kakao img api -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    </script>
   </head>
   <body>
     <h1 class="text-4xl text-blue-500 border-b-2 border-gray 300 p-5">냉장고 재료로 만들 음식 추천!</h1>
@@ -34,9 +39,9 @@
             <div>
               <p class="block text-gray-700 text-sm font-bold mb-4 text-xl">종류</p>
               <input type="radio" name="type" id="type1" value="한식" checked/><label for="type1" class="text-xl">한식</label>
-              <input type="radio" name="type" id="type2" value="일식" /><label for="type2" class="text-xl">일식</label>
+              <input type="radio" name="type" id="type2" value="일식요리" /><label for="type2" class="text-xl">일식</label>
               <input type="radio" name="type" id="type3" value="중식" /><label for="type3" class="text-xl">중식</label>
-              <input type="radio" name="type" id="type4" value="양식" /><label for="type4" class="text-xl">양식</label>
+              <input type="radio" name="type" id="type4" value="양식요리" /><label for="type4" class="text-xl">양식</label>
             </div>
             <div>
               <label for="num"  class="block text-gray-700 text-sm font-bold mb-2 mt-4 text-xl ">추천받을 수</label>
@@ -48,9 +53,11 @@
                 <option value="5">5</option>
               </select>
             </div>
-            <button type="submit" class = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-1/2 mt-4">전송</button>
+            <button type="submit" class = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-1/2 mt-4 mb-4">전송</button>
       </div>
         </form>
+        <div id="content" style="display: grid;">
+        </div>
         <div>
           <ul></ul>
         </div>
