@@ -65,6 +65,7 @@ const printQuestion = async () => {
   if (questionData.length > 0) {
     const li = document.createElement("li");
     li.classList.add("question");
+    li.classList.add("hidden");
     questionData.forEach((el) => {
       const span = document.createElement("span");
       span.innerText = el.content;
@@ -79,7 +80,7 @@ const printQuestion = async () => {
 // 화면에 답변 그려주는 함수
 const printAnswer = async (answer) => {
   let li = document.createElement("li");
-  li.classList.add("answer");
+  li.setAttribute("class", "answer border-2 border-indigo-200 text-xl w-1/2");
   li.innerText = answer;
   $chatList.appendChild(li);
 
@@ -103,7 +104,7 @@ const printAnswer = async (answer) => {
     input1.setAttribute("placeholder", "ex)2.탕수육");
     input1.setAttribute(
       "class",
-      "block appearance-none w-1/2 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mb-4"
+      "block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mb-4"
     );
 
     // 추가 질문을 전송할 수 있는 버튼 생성
@@ -111,7 +112,7 @@ const printAnswer = async (answer) => {
     additionalQuestionInput.type = "submit";
     additionalQuestionInput.setAttribute(
       "class",
-      "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-1/2 mt-4"
+      "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
     );
     additionalQuestionInput.innerText = "전송";
 
@@ -124,6 +125,8 @@ const printAnswer = async (answer) => {
 
     $form.appendChild(additionalQuestionDiv);
   }
+  // 버튼을 전송버튼으로 돌려주는 함수
+  buttonrecovery();
 };
 
 // api 요청보내는 함수
@@ -148,6 +151,9 @@ const apiPost = async () => {
 // submit
 $form.addEventListener("submit", (e) => {
   e.preventDefault();
+
+  // 버튼을 로딩중 버튼으로 바꿔주는 함수
+  buttonchange();
 
   if (additional) {
     // 추가 질문이 있는 경우
@@ -216,7 +222,9 @@ function kakaoImgApiInsert() {
     success: function (jdata) {
       //console.log(jdata);
       $(jdata.documents).each(function (index) {
-        $("div#content").append('<img src="' + this.image_url + '"/>');
+        $("div#content").append(
+          '<img class="w-full h-full" src="' + this.image_url + '"/>'
+        );
       });
     },
     error: function (xhr, textStatus) {
@@ -226,3 +234,28 @@ function kakaoImgApiInsert() {
     },
   });
 }
+
+// 버튼을 로딩 중 상태로 변경
+function buttonchange() {
+  const submitButton = $form.querySelector("button[type='submit']");
+  submitButton.disabled = true;
+  submitButton.innerHTML = `
+     <svg aria-hidden="true" role="status" class="inline mr-3 w-4 h-4 text-white animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+     </svg>
+     Loading...
+   `;
+}
+
+// 버튼을 원래 상태로 복구
+function buttonrecovery() {
+  const submitButton = $form.querySelector("button[type='submit']");
+  submitButton.disabled = false;
+  submitButton.innerHTML = "전송";
+}
+
+// // answer list가 2개가 되면 초기화
+// function clear(){
+
+// }
