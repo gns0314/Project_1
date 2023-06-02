@@ -108,22 +108,24 @@ const printAnswer = async (answer) => {
     );
 
     // 추가 질문을 전송할 수 있는 버튼 생성
-    let additionalQuestionInput = document.createElement("button");
-    additionalQuestionInput.type = "submit";
-    additionalQuestionInput.setAttribute(
-      "class",
-      "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
-    );
-    additionalQuestionInput.innerText = "전송";
+    if (!additionalQuestionDiv) {
+      let additionalQuestionInput = document.createElement("button");
+      additionalQuestionInput.type = "submit";
+      additionalQuestionInput.setAttribute(
+        "class",
+        "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
+      );
+      additionalQuestionInput.innerText = "전송";
 
-    // 추가 질문을 담는 div 생성
-    additionalQuestionDiv = document.createElement("div");
-    additionalQuestionDiv.setAttribute("class", "additional");
-    additionalQuestionDiv.appendChild(label);
-    additionalQuestionDiv.appendChild(input1);
-    additionalQuestionDiv.appendChild(additionalQuestionInput);
+      // 추가 질문을 담는 div 생성
+      additionalQuestionDiv = document.createElement("div");
+      additionalQuestionDiv.setAttribute("class", "additional");
+      additionalQuestionDiv.appendChild(label);
+      additionalQuestionDiv.appendChild(input1);
+      additionalQuestionDiv.appendChild(additionalQuestionInput);
 
-    $form.appendChild(additionalQuestionDiv);
+      $form.appendChild(additionalQuestionDiv);
+    }
   }
   // 버튼을 전송버튼으로 돌려주는 함수
   buttonrecovery();
@@ -160,6 +162,7 @@ $form.addEventListener("submit", (e) => {
     sendQuestion(
       `너가 위에서 추천해준 ${additional}에 대한 자세한 레시피를 알고싶어`
     );
+    // 답변 리스트 초기화 여부를 묻는 확인 메시지
   } else {
     // 추가 질문이 없는 경우
     ingredient = $input.value;
@@ -259,16 +262,4 @@ function buttonrecovery() {
     subBtn.disabled = false;
     subBtn.innerHTML = "전송";
   }
-}
-
-// //list, image 초기화 함수
-function clear() {
-  $form = document.querySelector("form");
-  $input = document.querySelector("input");
-  $chatList = document.querySelector("ul");
-
-  $form = null;
-  $input = null;
-  $chatList = null;
-  document.getElementById("content").value = null;
 }
