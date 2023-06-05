@@ -199,7 +199,7 @@ function kakaoImgApiInsert() {
       page = 1;
       break;
     case "일식요리":
-      page = 2;
+      page = 3;
       break;
     case "중식":
       page = 15;
