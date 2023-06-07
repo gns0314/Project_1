@@ -106,20 +106,6 @@ const printAnswer = async (answer) => {
       "class",
       "block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mb-4"
     );
-    // 자세히 보고싶은 레시피 출력 div 생성
-    let sub_title = document.querySelector("#sub_title");
-    let detail_menu = document.createElement("div");
-    detail_menu.setAttribute("class", "w-1/2");
-
-    let detail_title = document.createElement("p");
-    detail_title.setAttribute(
-      "class",
-      "block text-gray-700 text-sm font-bold mb-4 text-xl"
-    );
-    detail_title.innerText = "레시피";
-
-    detail_menu.appendChild(detail_title);
-    sub_title.appendChild(detail_menu);
 
     // 추가 질문을 전송할 수 있는 버튼 생성
     let additionalQuestionInput = document.createElement("button");
@@ -191,11 +177,13 @@ $form.addEventListener("submit", (e) => {
       );
     } else if (additional) {
       // 추가 질문이 있는경우
+      recipe();
       sendQuestion(
         `너가 위에서 추천해준 ${additional}에 대한 자세한 레시피를 알고싶어`
       );
     } else if (!additional) {
       // 추가 질문이 없는 경우
+      recipe();
       sendQuestion(
         `너가 위에서 추천해준${num}가지 메뉴중에 너가 메뉴 한개 추천해주고 그 추천해주는 음식에 대한 자세한 레시피를 알고싶어`
       );
@@ -291,4 +279,21 @@ function buttonrecovery() {
 //초기화 함수
 function clear() {
   location.reload();
+}
+
+// 레시피 div 출력 함수
+function recipe() {
+  let sub_title = document.querySelector("#sub_title");
+  let detail_menu = document.createElement("div");
+  detail_menu.setAttribute("class", "w-1/2");
+
+  let detail_title = document.createElement("p");
+  detail_title.setAttribute(
+    "class",
+    "block text-gray-700 text-sm font-bold mb-4 text-xl"
+  );
+  detail_title.innerText = "레시피";
+
+  detail_menu.appendChild(detail_title);
+  sub_title.appendChild(detail_menu);
 }
