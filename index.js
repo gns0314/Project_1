@@ -176,13 +176,14 @@ $form.addEventListener("submit", (e) => {
         `가정집에서 간단하게 만들수있는 ${cuisineType}을 ${num}가지 메뉴만추천해줘`
       );
     } else if (additional) {
+      // 추가 질문이 있는경우
       sendQuestion(
         `너가 위에서 추천해준 ${additional}에 대한 자세한 레시피를 알고싶어`
       );
     } else if (!additional) {
       // 추가 질문이 없는 경우
       sendQuestion(
-        `너가 위에서 추천해준메뉴중에 너가 추천해주는 음식 1가지에 대한 자세한 레시피를 알고싶어`
+        `너가 위에서 추천해준${num}가지 메뉴중에 너가 추천해주는 음식 1가지에 대한 자세한 레시피를 알고싶어`
       );
     }
     $input.value = null;
@@ -205,25 +206,18 @@ function kakaoImgApiInsert() {
   const foodType = cuisineType;
   let page;
 
-  // switch 문을 사용하여 foodType 값에 따라 page 값을 설정
-  switch (foodType) {
-    case "한식":
-      page = 1;
-      break;
-    case "일식요리":
-      page = 2;
-      break;
-    case "중식":
-      page = 20;
-      break;
-    case "양식요리":
-      page = 3;
-      break;
-    default:
-      page = 1;
-      break;
+  // 조건문 분기를 이용하여 foodType 값에 따라 page 값을 설정
+  if (foodType == "한식") {
+    page = 1;
+  } else if (foodType == "일식요리") {
+    page = 2;
+  } else if (foodType == "중식") {
+    page = 19;
+  } else if (foodType == "양식요리") {
+    page = 3;
+  } else {
+    page = 1;
   }
-
   //https://developers.kakao.com/tool/rest-api/open/get/v2-search-image
   $.ajax({
     type: "GET",
