@@ -87,8 +87,8 @@ const printAnswer = async (answer) => {
   // 추가 질문을 담는 div가 없을 경우에만 생성
   if (!additionalQuestionDiv) {
     // 상세히 보고싶은 레시피 입력
-    let input1 = document.createElement("input");
-    input1.addEventListener("input", (e) => {
+    let additional_input = document.createElement("input");
+    additional_input.addEventListener("input", (e) => {
       additional = e.target.value;
     });
     let label = document.createElement("label");
@@ -98,34 +98,32 @@ const printAnswer = async (answer) => {
       "block text-gray-700 text-sm font-bold mb-2 text-xl"
     );
     label.innerText = "상세히 보고싶은 레시피를 적으세요";
-    input1.setAttribute("type", "text");
-    input1.setAttribute("name", "add");
-    input1.setAttribute("id", "add");
-    input1.setAttribute("placeholder", "ex)2.탕수육");
-    input1.setAttribute(
+    additional_input.setAttribute("type", "text");
+    additional_input.setAttribute("name", "add");
+    additional_input.setAttribute("id", "add");
+    additional_input.setAttribute("placeholder", "ex)2.탕수육");
+    additional_input.setAttribute(
       "class",
       "block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mb-4"
     );
 
     // 추가 질문을 전송할 수 있는 버튼 생성
-    if (!additionalQuestionDiv) {
-      let additionalQuestionInput = document.createElement("button");
-      additionalQuestionInput.type = "submit";
-      additionalQuestionInput.setAttribute(
-        "class",
-        "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
-      );
-      additionalQuestionInput.innerText = "전송";
+    let additionalQuestionInput = document.createElement("button");
+    additionalQuestionInput.type = "submit";
+    additionalQuestionInput.setAttribute(
+      "class",
+      "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full mt-4"
+    );
+    additionalQuestionInput.innerText = "전송";
 
-      // 추가 질문을 담는 div 생성
-      additionalQuestionDiv = document.createElement("div");
-      additionalQuestionDiv.setAttribute("class", "additional");
-      additionalQuestionDiv.appendChild(label);
-      additionalQuestionDiv.appendChild(input1);
-      additionalQuestionDiv.appendChild(additionalQuestionInput);
+    // 추가 질문을 담는 div 생성
+    additionalQuestionDiv = document.createElement("div");
+    additionalQuestionDiv.setAttribute("class", "additional");
+    additionalQuestionDiv.appendChild(label);
+    additionalQuestionDiv.appendChild(additional_input);
+    additionalQuestionDiv.appendChild(additionalQuestionInput);
 
-      $form.appendChild(additionalQuestionDiv);
-    }
+    $form.appendChild(additionalQuestionDiv);
   }
   // 버튼을 전송버튼으로 돌려주는 함수
   buttonrecovery();
@@ -152,6 +150,7 @@ const apiPost = async () => {
 
 $form.addEventListener("submit", (e) => {
   if ($chatList.querySelectorAll(".answer").length >= 2) {
+    // 답변 리스트 초기화 여부를 묻는 확인 메시지
     const confirmation = confirm("답변이 가득 찼습니다. 초기화 하시겠습니까?");
 
     if (confirmation) {
@@ -159,21 +158,34 @@ $form.addEventListener("submit", (e) => {
     }
   } else {
     buttonchange();
-    if (additional) {
-      // 추가 질문이 있는 경우
-      $input.value = null;
+    // 추가 질문이 있는 경우
+
+    ingredient = $input.value;
+    num = document.getElementById("num").value;
+    if (ingredient) {
+      // 재료에 대한 입력이 있는경우
+      sendQuestion(
+        `냉장고에 ${ingredient}가 있고 나는 ${cuisineType}을 만들고 싶어 ${ingredient}로 만들 수 있는 ${cuisineType}을 ${num}가지 메뉴만추천해줘.`
+      );
+    } else if (
+      !ingredient &
+      ($chatList.querySelectorAll(".answer").length < 1)
+    ) {
+      // 재료에 대한 입력이 없는 경우
+      sendQuestion(
+        `가정집에서 간단하게 만들수있는 ${cuisineType}을 ${num}가지 메뉴만추천해줘`
+      );
+    } else if (additional) {
       sendQuestion(
         `너가 위에서 추천해준 ${additional}에 대한 자세한 레시피를 알고싶어`
       );
-      // 답변 리스트 초기화 여부를 묻는 확인 메시지
-    } else {
+    } else if (!additional) {
       // 추가 질문이 없는 경우
-      ingredient = $input.value;
-      num = document.getElementById("num").value;
       sendQuestion(
-        `냉장고에 ${ingredient}가 있고 나는 ${cuisineType}을 만들고 싶어 ${ingredient}로 만들 수 있는 ${cuisineType}을 ${num}가지 추천해줘.`
+        `너가 위에서 추천해준메뉴중에 너가 추천해주는 음식 1가지에 대한 자세한 레시피를 알고싶어`
       );
     }
+    $input.value = null;
     printQuestion();
     apiPost();
   }
@@ -181,7 +193,7 @@ $form.addEventListener("submit", (e) => {
 });
 
 // kakao img api
-// input 값이 변경될 때마다 kakaoImgApiInsert 함수 호출
+// input 값이 변경될 때 kakaoImgApiInsert 함수 호출
 $form.addEventListener("submit", function handleFormSubmit(event) {
   event.preventDefault(); // 폼 제출 기본 동작 막기
   kakaoImgApiInsert();
@@ -199,10 +211,10 @@ function kakaoImgApiInsert() {
       page = 1;
       break;
     case "일식요리":
-      page = 3;
+      page = 2;
       break;
     case "중식":
-      page = 15;
+      page = 20;
       break;
     case "양식요리":
       page = 3;
