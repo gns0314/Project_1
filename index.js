@@ -106,6 +106,20 @@ const printAnswer = async (answer) => {
       "class",
       "block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline mb-4"
     );
+    // 자세히 보고싶은 레시피 출력 div 생성
+    let sub_title = document.querySelector("#sub_title");
+    let detail_menu = document.createElement("div");
+    detail_menu.setAttribute("class", "w-1/2");
+
+    let detail_title = document.createElement("p");
+    detail_title.setAttribute(
+      "class",
+      "block text-gray-700 text-sm font-bold mb-4 text-xl"
+    );
+    detail_title.innerText = "레시피";
+
+    detail_menu.appendChild(detail_title);
+    sub_title.appendChild(detail_menu);
 
     // 추가 질문을 전송할 수 있는 버튼 생성
     let additionalQuestionInput = document.createElement("button");
@@ -168,8 +182,8 @@ $form.addEventListener("submit", (e) => {
         `냉장고에 ${ingredient}가 있고 나는 ${cuisineType}을 만들고 싶어 ${ingredient}로 만들 수 있는 ${cuisineType}을 ${num}가지 메뉴만추천해줘.`
       );
     } else if (
-      !ingredient &
-      ($chatList.querySelectorAll(".answer").length < 1)
+      !ingredient &&
+      $chatList.querySelectorAll(".answer").length < 1
     ) {
       // 재료에 대한 입력이 없는 경우
       sendQuestion(
@@ -183,7 +197,7 @@ $form.addEventListener("submit", (e) => {
     } else if (!additional) {
       // 추가 질문이 없는 경우
       sendQuestion(
-        `너가 위에서 추천해준${num}가지 메뉴중에 너가 추천해주는 음식 1가지에 대한 자세한 레시피를 알고싶어`
+        `너가 위에서 추천해준${num}가지 메뉴중에 너가 메뉴 한개 추천해주고 그 추천해주는 음식에 대한 자세한 레시피를 알고싶어`
       );
     }
     $input.value = null;
@@ -207,13 +221,13 @@ function kakaoImgApiInsert() {
   let page;
 
   // 조건문 분기를 이용하여 foodType 값에 따라 page 값을 설정
-  if (foodType == "한식") {
+  if (foodType === "한식") {
     page = 1;
-  } else if (foodType == "일식요리") {
+  } else if (foodType === "일식요리") {
     page = 2;
-  } else if (foodType == "중식") {
-    page = 19;
-  } else if (foodType == "양식요리") {
+  } else if (foodType === "중식") {
+    page = 13;
+  } else if (foodType === "양식요리") {
     page = 3;
   } else {
     page = 1;
@@ -223,7 +237,7 @@ function kakaoImgApiInsert() {
     type: "GET",
     url: "https://dapi.kakao.com/v2/search/image",
     headers: {
-      Authorization: "KakaoAK 1ae7763bfd5906ae723a040cd42f2538", // 'KakaoAK 0000000000000000000000000000000000'
+      Authorization: "KakaoAK 1ae7763bfd5906ae723a040cd42f2538",
     },
     data: {
       query: `${foodType}`,
