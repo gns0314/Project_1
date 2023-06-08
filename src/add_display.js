@@ -4,7 +4,7 @@ import { $form} from "../index.js";
 export let additionalQuestionDiv;
 
 // 추가 질문 값을 저장할 변수
-let additional;
+export let additional;
 
 // 레시피 div 출력 함수
 export function recipe() {

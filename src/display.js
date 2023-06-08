@@ -5,7 +5,7 @@ import { additionalQuestionDiv } from "./add_display.js";
 export const $chatList = document.querySelector("ul");
 
 // 사용자의 질문
-export let question;
+let question;
 
 // 화면에 뿌려줄 데이터, 질문들
 export let questionData = [];

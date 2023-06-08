@@ -2,9 +2,9 @@ import { buttonchange } from "./src/button.js";
 import { clear } from "./src/clear.js";
 import { kakaoImgApiInsert } from "./src/img.js";
 import { data } from "./src/data.js";
-import { printQuestion, $chatList, questionData } from "./src/display.js";
+import { printQuestion, $chatList, questionData} from "./src/display.js";
 import { apiPost } from "./src/api.js";
-import { recipe } from "./src/add_display.js";
+import { recipe, additional } from "./src/add_display.js";
 import { cuisineType } from "./src/radio.js";
 
 export const $form = document.querySelector("form");
@@ -19,8 +19,6 @@ let ingredient;
 // 추천받을 가지수 저장할 변수
 let num;
 
-// 추가 질문 값을 저장할 변수
-let additional;
 
 // input에 입력된 질문 받아오는 함수
 $input.addEventListener("input", (e) => {
