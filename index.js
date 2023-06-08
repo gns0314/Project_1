@@ -2,9 +2,13 @@ import { buttonchange } from "./src/button.js";
 import { clear } from "./src/clear.js";
 import { kakaoImgApiInsert } from "./src/img.js";
 import { data } from "./src/data.js";
-import { question, printQuestion } from "./src/display.js";
+import {
+  question,
+  printQuestion,
+  $chatList,
+  questionData,
+} from "./src/display.js";
 import { apiPost } from "./src/api.js";
-import { $chatList, questionData } from "./src/display.js";
 import { recipe } from "./src/add_display.js";
 import { cuisineType } from "./src/radio.js";
 
