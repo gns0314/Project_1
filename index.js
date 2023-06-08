@@ -4,8 +4,9 @@ import { kakaoImgApiInsert } from "./src/img.js";
 import { data } from "./src/data.js";
 import { question, printQuestion } from "./src/display.js";
 import { apiPost } from "./src/api.js";
-import { $chatList } from "./src/display.js";
+import { $chatList, questionData } from "./src/display.js";
 import { recipe } from "./src/adddisplay.js";
+import { cuisineType } from "./src/radio.js";
 
 export const $form = document.querySelector("form");
 const $input = document.querySelector("input");
