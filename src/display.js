@@ -1,5 +1,6 @@
 import { buttonrecovery } from "./button.js";
-import { additionalDiv } from "./adddisplay.js";
+import { additionalDiv } from "./add_display.js";
+import { additionalQuestionDiv } from "./add_display.js";
 
 export const $chatList = document.querySelector("ul");
 
@@ -7,7 +8,7 @@ export const $chatList = document.querySelector("ul");
 export let question;
 
 // 화면에 뿌려줄 데이터, 질문들
-let questionData = [];
+export let questionData = [];
 
 // 화면에 질문 그려주는 함수
 export const printQuestion = async () => {
