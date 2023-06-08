@@ -2,18 +2,16 @@ import { buttonchange } from "./src/button.js";
 import { clear } from "./src/clear.js";
 import { kakaoImgApiInsert } from "./src/img.js";
 import { data } from "./src/data.js";
-import {
-  question,
-  printQuestion,
-  $chatList,
-  questionData,
-} from "./src/display.js";
+import { printQuestion, $chatList, questionData } from "./src/display.js";
 import { apiPost } from "./src/api.js";
 import { recipe } from "./src/add_display.js";
 import { cuisineType } from "./src/radio.js";
 
 export const $form = document.querySelector("form");
 const $input = document.querySelector("input");
+
+// 사용자의 질문
+let question;
 
 // input에 입력된 값을 저장할 변수
 let ingredient;
