@@ -10,9 +10,9 @@ export function kakaoImgApiInsert() {
   if (foodType === "한식") {
     page = 1;
   } else if (foodType === "일식요리") {
-    page = 2;
+    page = 3;
   } else if (foodType === "중식") {
-    page = 14;
+    page = 12;
   } else if (foodType === "양식요리") {
     page = 3;
   } else {
